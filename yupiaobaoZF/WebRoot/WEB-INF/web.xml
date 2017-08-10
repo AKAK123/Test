@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_1501126664478">
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <!-- 容器启动 加载spring配置文件 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+    <listener>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>  
+	<!-- 所有的请求来源  -->
+	<filter>
+		<filter-name>RequestRemoteAddrFilter</filter-name>
+		<filter-class>com.szcares.filter.RequestRemoteAddrFilter</filter-class>
+		<init-param>
+			<param-name>blackList</param-name>
+			<param-value></param-value>  <!-- 多个用逗号隔开，如：44803542,8727777 -->
+		</init-param>
+		<init-param>
+			<param-name>blackResponseReturnMsg</param-name>
+			<param-value>网络繁忙，请稍后再试</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>RequestRemoteAddrFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  <!-- 转发使用 -->
+   <servlet>
+    <servlet-name>GoToServce</servlet-name>
+    <servlet-class>com.szcares.action.GoToServce</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoToServce</servlet-name>
+    <url-pattern>/xml/gotoServce</url-pattern>
+  </servlet-mapping>
+  <!-- 转发外网接口控制器类 -->
+   <servlet>
+    <servlet-name>ForwardServce</servlet-name>
+    <servlet-class>com.szcares.action.ForwardServce</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ForwardServce</servlet-name>
+    <url-pattern>/forwardServce</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ReRuleXml</servlet-name>
+    <servlet-class>com.szcares.action.ReRuleXmlInfoAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReRuleXml</servlet-name>
+    <url-pattern>/xml/reRuleXml</url-pattern>
+  </servlet-mapping>
+   <!-- 短信转发发送控制器类 -->
+   <servlet>
+    <servlet-name>SendSms</servlet-name>
+    <servlet-class>com.szcares.action.ForwardServceSendSms</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendSms</servlet-name>
+    <url-pattern>/forwardServce/sendSms</url-pattern>
+  </servlet-mapping>
+   <!-- 对微信公众号转发服务处理控制器类(微信菜单) -->
+   <servlet>
+    <servlet-name>serviceWechat</servlet-name>
+    <servlet-class>com.szcares.action.ServiceWechatAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>serviceWechat</servlet-name>
+    <url-pattern>/serviceWechat</url-pattern>
+  </servlet-mapping>
+   <!-- 对微信公众号转发服务处理控制器类 -->
+   <servlet>
+    <servlet-name>wechatForward</servlet-name>
+    <servlet-class>com.szcares.action.WechatForwardAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>wechatForward</servlet-name>
+    <url-pattern>/wechatForward</url-pattern>
+  </servlet-mapping>
+
+    <!-- 对pnr信息操作转发 -->
+   <servlet>
+    <servlet-name>parsonPNRAction</servlet-name>
+    <servlet-class>com.szcares.action.ParsonPNRAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>parsonPNRAction</servlet-name>
+    <url-pattern>/xml/parsonPNR</url-pattern>
+  </servlet-mapping>
+  <!-- 短信发送 -->
+   <servlet>
+    <servlet-name>sendMsg</servlet-name>
+    <servlet-class>com.szcares.action.SendSmsAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>sendMsg</servlet-name>
+    <url-pattern>/send/sendMsg</url-pattern>
+  </servlet-mapping>
+  <!-- 抢票计划发送 -->
+   <servlet>
+    <servlet-name>gradTicket</servlet-name>
+    <servlet-class>com.szcares.action.GrabTicketService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gradTicket</servlet-name>
+    <url-pattern>/gradTicket/gradTicket.do</url-pattern>
+  </servlet-mapping>
+  <!-- 只做转发操作 -->
+   <servlet>
+    <servlet-name>doServerToForward</servlet-name>
+    <servlet-class>com.szcares.action.DoServerToForward</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>doServerToForward</servlet-name>
+    <url-pattern>/doServerToForward</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 短信发送接口  -->
+  <servlet>
+    <servlet-name>ypbMassegeAction</servlet-name>
+    <servlet-class>com.szcares.action.YPBMassegeAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ypbMassegeAction</servlet-name>
+    <url-pattern>/ypbMassege</url-pattern>
+  </servlet-mapping>
+  <!-- IBE+ 推送转发 -->
+  <servlet>
+  	<servlet-name>pushIbe</servlet-name>
+  	<servlet-class>com.szcares.action.FlightIBEPushAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>pushIbe</servlet-name>
+  	<url-pattern>/pushIbePolicy</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 邮件发送 -->
+  <servlet>
+  	<servlet-name>Mail</servlet-name>
+  	<servlet-class>com.szcares.action.SendMailAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Mail</servlet-name>
+	<url-pattern>/sendMail</url-pattern>
+  </servlet-mapping>
+  
+    <!-- http请求转发 -->
+  <servlet>
+  	<servlet-name>HttpTransmitAction</servlet-name>
+  	<servlet-class>com.szcares.action.HttpTransmitAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HttpTransmitAction</servlet-name>
+  	<url-pattern>/httpTransmit</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 保单http请求 -->
+  <servlet>
+  	<servlet-name>YPBInsuranceAction</servlet-name>
+  	<servlet-class>com.szcares.action.YPBInsuranceAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>YPBInsuranceAction</servlet-name>
+  	<url-pattern>/YPBInsurance</url-pattern>
+  </servlet-mapping>
+</web-app>
